@@ -12,6 +12,8 @@
 #include <time.h>
 #include <sys/time.h>
 
+
+
 #define _IN_
 #define _OUT_
 #define HARD_MAX  (8192U)
@@ -20,7 +22,7 @@
 //*
 //*     CONSTANTES
 //*
-//*******************************************************************
+//*********************************************** ********************
 #define DOUBLE_MANTIS_SIZE   (30U)
 #define NS_PER_SECOND (1000000000LL)
 
