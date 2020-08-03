@@ -11,6 +11,7 @@
 
 #include <stddef.h>
 #include <sys/queue.h> // double list
+#include <pthread.h>
 
 
 #define FOR_TQ(pItem,plistID) \
@@ -31,6 +32,7 @@ struct ListQ
         TAILQ_ENTRY(s_item) LQ_ENTRIES;         /* Liste double */
         void *pData;
     } s_entry;
+    pthread_mutex_t mutex;
 };
 
 typedef struct ListQ ListQ_t;
@@ -52,7 +54,8 @@ void * tq_RemoveItem(ListQ_t *a_pList,s_item_t *a_pItem );
 void tq_EraseHead(ListQ_t *a_pList);
 void tq_EraseItem(ListQ_t *a_pList,s_item_t *a_pItem );
 
-
+int tq_lock(ListQ_t *a_pList);
+int tq_unlock(ListQ_t *a_pList);
 
 
 
