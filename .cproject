@@ -117,15 +117,15 @@
                         					
                     </folderInfo>
                     					
-                    <fileInfo id="cdt.managedbuild.config.gnu.so.debug.858855744.2094898118" name="listtailqueue.c" rcbsApplicability="disable" resourcePath="src/listtailqueue.c" toolsToInvoke="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532.337009309">
+                    <fileInfo id="cdt.managedbuild.config.gnu.so.debug.858855744.627276003" name="listtailqueue.c" rcbsApplicability="disable" resourcePath="src/listtailqueue.c" toolsToInvoke="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532.359889325">
                         						
-                        <tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532.337009309" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532"/>
+                        <tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532.359889325" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532"/>
                         					
                     </fileInfo>
                     					
                     <sourceEntries>
                         						
-                        <entry excluding="src/listtailqueue_i.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+                        <entry excluding="listtailqueue_o.c|listtailqueue_i.c|listtailqueue_1.c|src/listtailqueue_i.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
                         					
                     </sourceEntries>
                     				
