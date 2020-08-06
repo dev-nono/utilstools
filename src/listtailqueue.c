@@ -7,6 +7,10 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
+#include <errno.h>
+
 
 #include "listtailqueue.h"
 
@@ -64,7 +68,7 @@ int tq_unlock(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_insertItemHead(ListQ_t *a_pList, s_item_t   *a_pItem)
+ListQ_item_t * tq_insertItemHead(ListQ_t *a_pList, ListQ_item_t   *a_pItem)
 {
     tq_lock(a_pList);
 
@@ -77,7 +81,7 @@ s_item_t * tq_insertItemHead(ListQ_t *a_pList, s_item_t   *a_pItem)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_insertItemTail(ListQ_t *a_pList, s_item_t *a_pItem)
+ListQ_item_t * tq_insertItemTail(ListQ_t *a_pList, ListQ_item_t *a_pItem)
 {
     tq_lock(a_pList);
 
@@ -90,9 +94,9 @@ s_item_t * tq_insertItemTail(ListQ_t *a_pList, s_item_t *a_pItem)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_insertItemAfter( ListQ_t     *a_pList,
-        s_item_t   *a_pItem,
-        s_item_t   *a_pItemToAdd)
+ListQ_item_t * tq_insertItemAfter( ListQ_t     *a_pList,
+        ListQ_item_t   *a_pItem,
+        ListQ_item_t   *a_pItemToAdd)
 {
     tq_lock(a_pList);
 
@@ -109,9 +113,9 @@ s_item_t * tq_insertItemAfter( ListQ_t     *a_pList,
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_createItemList(ListQ_t *a_pList)
+ListQ_item_t * tq_createItemList(ListQ_t *a_pList)
 {
-    s_item_t *pItem = 0;
+    ListQ_item_t *pItem = 0;
 
     tq_lock(a_pList);
 
@@ -127,34 +131,45 @@ s_item_t * tq_createItemList(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_createItem()
+ListQ_item_t * tq_createItem()
 {
-    s_item_t *pItem = 0;
+    ListQ_item_t *pItem = 0;
 
-    pItem = (s_item_t *)calloc(sizeof( s_item_t),sizeof(char));
+    pItem = (ListQ_item_t *)calloc(sizeof( ListQ_item_t),sizeof(char));
 
     return pItem;
 }
 //**********************************************************
 //*
 //**********************************************************
-void tq_destroyItem(s_item_t   *a_pItem)
+void* tq_destroyItem(ListQ_item_t *a_pItem, unsigned int a_DestroyData)
 {
-    if( a_pItem->pData)
-        free(a_pItem->pData);
+    void* pData = 0;
+
+    if( a_pItem && ( a_pItem->pData) )
+    {
+        if( 0 !=  a_DestroyData )
+            free(a_pItem->pData);
+        else
+            pData = a_pItem->pData ;
+    }
 
     if( a_pItem )
+    {
         free(a_pItem);
+    }
+
+    return pData;
 }
 
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_insertHead(ListQ_t *a_pList)
+ListQ_item_t * tq_insertHead(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    s_item_t *pItem = tq_createItemList(a_pList);
+    ListQ_item_t *pItem = tq_createItemList(a_pList);
 
     TAILQ_INSERT_HEAD(&a_pList->head, pItem, LQ_ITEMS);
 
@@ -165,11 +180,11 @@ s_item_t * tq_insertHead(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_insertTail(ListQ_t *a_pList)
+ListQ_item_t * tq_insertTail(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    s_item_t *pItem = tq_createItemList(a_pList);
+    ListQ_item_t *pItem = tq_createItemList(a_pList);
 
     TAILQ_INSERT_TAIL(&a_pList->head, pItem, LQ_ITEMS);
 
@@ -180,11 +195,11 @@ s_item_t * tq_insertTail(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_insertAfter( ListQ_t *a_pList, s_item_t *a_pItem)
+ListQ_item_t * tq_insertAfter( ListQ_t *a_pList, ListQ_item_t *a_pItem)
 {
     tq_lock(a_pList);
 
-    s_item_t *pItemToAdd = tq_createItemList(a_pList);
+    ListQ_item_t *pItemToAdd = tq_createItemList(a_pList);
 
     TAILQ_INSERT_AFTER( &a_pList->head,
             a_pItem,
@@ -201,7 +216,7 @@ void tq_eraseHeadList(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    s_item_t *pItem = a_pList->head.tqh_first;
+    ListQ_item_t *pItem = TAILQ_FIRST(&a_pList->head);
 
     tq_eraseItemList(a_pList,pItem );
 
@@ -214,7 +229,7 @@ void tq_eraseTailList(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    s_item_t *pItem = (s_item_t *)a_pList->head.tqh_last;
+    ListQ_item_t *pItem = TAILQ_LAST(&a_pList->head,s_ListQ_tailhead);
 
     tq_eraseItemList(a_pList,pItem );
 
@@ -223,13 +238,14 @@ void tq_eraseTailList(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-void tq_eraseItemList(ListQ_t *a_pList,s_item_t *a_pItem )
+void tq_eraseItemList(ListQ_t *a_pList,ListQ_item_t *a_pItem )
 {
     tq_lock(a_pList);
 
-    TAILQ_REMOVE(&a_pList->head, a_pItem, LQ_ITEMS);
+//    TAILQ_REMOVE(&a_pList->head, a_pItem, LQ_ITEMS);
+    tq_removeItemList(a_pList, a_pItem);
 
-    tq_destroyItem(a_pItem );
+    tq_destroyItem(a_pItem, 1U );
 
     a_pItem = 0;
 
@@ -243,7 +259,7 @@ void   tq_clearList(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    while (a_pList->head.tqh_first != NULL)
+    while(!TAILQ_EMPTY(&a_pList->head))
     {
         tq_removeHeadList(a_pList);
     }
@@ -258,7 +274,8 @@ void   tq_eraseList(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    while (a_pList->head.tqh_first != NULL)
+//    while (a_pList->head.tqh_first != NULL)
+    while(!TAILQ_EMPTY(&a_pList->head))
     {
         tq_eraseHeadList(a_pList);
     }
@@ -268,23 +285,11 @@ void   tq_eraseList(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_removeHeadList(ListQ_t *a_pList)
+ListQ_item_t * tq_removeHeadList(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    s_item_t *pItem = a_pList->head.tqh_first;
-    pItem = TAILQ_FIRST(&a_pList->head);
-
-
-
-//    s_item_t *pItem = 0;
-//
-//    while (!TAILQ_EMPTY(&a_pList->head))
-//    {
-//        pItem = TAILQ_FIRST(&a_pList->head);
-//        TAILQ_REMOVE(&a_pList->head, pItem, LQ_ITEMS);
-//
-//    }
+    ListQ_item_t *pItem = TAILQ_FIRST(&a_pList->head);
 
     tq_removeItemList(a_pList, pItem);
 
@@ -295,11 +300,11 @@ s_item_t * tq_removeHeadList(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_removeTailList(ListQ_t *a_pList)
+ListQ_item_t * tq_removeTailList(ListQ_t *a_pList)
 {
     tq_lock(a_pList);
 
-    s_item_t *pItem = (s_item_t *)a_pList->head.tqh_last;
+    ListQ_item_t *pItem = TAILQ_LAST(&a_pList->head,s_ListQ_tailhead);
 
     tq_removeItemList(a_pList, pItem);
 
@@ -310,7 +315,7 @@ s_item_t * tq_removeTailList(ListQ_t *a_pList)
 //**********************************************************
 //*
 //**********************************************************
-s_item_t * tq_removeItemList(ListQ_t *a_pList,s_item_t *a_pItem )
+ListQ_item_t * tq_removeItemList(ListQ_t *a_pList,ListQ_item_t *a_pItem )
 {
     tq_lock(a_pList);
 
@@ -319,4 +324,32 @@ s_item_t * tq_removeItemList(ListQ_t *a_pList,s_item_t *a_pItem )
     tq_unlock(a_pList);
 
     return (void*)a_pItem;
+}
+
+//**********************************************************
+//*
+//**********************************************************
+int tq_size(ListQ_t *a_pList)
+{
+    int             retcode     = -1;
+    ListQ_item_t    *pItem      = 0;
+    int             ii          = 0;
+
+    tq_lock(a_pList);
+
+    if( !a_pList )
+    {
+        retcode = -1;
+    }
+    else
+    {
+        FOR_TQ(pItem,a_pList)
+        {
+            ii++;
+        }
+        retcode = ii;
+    }
+
+    tq_unlock(a_pList);
+    return retcode;
 }
