@@ -12,7 +12,8 @@
 #include <time.h>
 #include <sys/time.h>
 
-
+#include "listtailqueue.h"
+#include "pthreadutils.h"
 
 #define _IN_
 #define _OUT_
