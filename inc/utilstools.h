@@ -9,12 +9,6 @@
 #define COMMON_INC_UTILS_H_
 
 #include <limits.h>
-#include <time.h>
-#include <sys/time.h>
-#include <utilstools_listtailqueue.h>
-#include <utilstools_pthreadutils.h>
-
-#include "utilstools_network.h"
 
 #define _IN_
 #define _OUT_
@@ -44,33 +38,25 @@
 #define CONCAT_POINT(_a,_b) STRINGIFY( _a._b )          // "." for semaphore filename
 #define CONCAT_SEM(aa,bb) STRINGIFY_3( aa , _ , bb )    // "_" for fifo filename
 
+#define max(a,b) \
+  ({ __auto_type _a = (a); \
+      __auto_type _b = (b); \
+    _a > _b ? _a : _b; })
 
+#define min(a,b) \
+  ({ __auto_type _a = (a); \
+      __auto_type _b = (b); \
+    _a < _b ? _a : _b; })
 
-int timeradd_ts(    struct timespec a_Time1,
-                    struct timespec a_Time2,
-                    struct timespec *a_Time_result );
-int timeradd_real (struct timespec a_Time2,struct timespec *a_Time_result );
-int timeradd_raw  (struct timespec a_Time2,struct timespec *a_Time_result );
-int timeradd_gtofd(struct timeval  a_Time2,struct timeval  *a_Time_result );
-
-int time_cnv_double_to_ts(double a_date,  struct timespec *a_pTime );
 
 //*******************************************************************
 //*
 //*
 //*
 //*******************************************************************
-const char *    getDateRawStr();
-const char *    getDateRaw(char *a_BufferDate);
-double          getDateRawDouble();
-double          getDateDouble(const struct timespec a_Date);
 
 int getFifoname(char* a_Fifoname);
 int getProcessname(char* a_Processname);
-int getMqClientname(  const char* a_ID,           // in
-                const char *a_Svcname,      // in
-                char        a_MqFilename[NAME_MAX]);   // out
-
 int getClientname(  const char* a_UniqID,           // in
                 const char *a_Svcname,          // in
                 char       a_ClientFilename[NAME_MAX]);   // out
@@ -79,8 +65,12 @@ int getUniqname(    const char* a_Path,           // in
                     const char *a_Svcname,          // in
                     char       a_ClientFilename[NAME_MAX]);   // out
 
-int fushMessageQueue(int a_Fd);
 
+
+//#include "utilstools_listtailqueue.h"
+//#include "utilstools_pthreadutils.h"
+//#include "utilstools_network.h"
+//#include "utilstools_msgqueue.h"
 
 #endif /* COMMON_INC_UTILS_H_ */
 

@@ -8,10 +8,8 @@
 #ifndef INC_UTILSTOOLS_NETWORK_H_
 #define INC_UTILSTOOLS_NETWORK_H_
 
-#include <sys/types.h>          /* Consultez NOTES */
-#include <sys/socket.h>
-#include <sys/un.h>
-#include <errno.h>
+
+#include "utilstools.h"
 
 // set sockaddr.sun_family = AF_UNSPEC;
 int net_resetConnectSocket(int a_socket);
