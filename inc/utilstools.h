@@ -11,9 +11,10 @@
 #include <limits.h>
 #include <time.h>
 #include <sys/time.h>
+#include <utilstools_listtailqueue.h>
+#include <utilstools_pthreadutils.h>
 
-#include "listtailqueue.h"
-#include "pthreadutils.h"
+#include "utilstools_network.h"
 
 #define _IN_
 #define _OUT_
@@ -69,6 +70,14 @@ int getProcessname(char* a_Processname);
 int getMqClientname(  const char* a_ID,           // in
                 const char *a_Svcname,      // in
                 char        a_MqFilename[NAME_MAX]);   // out
+
+int getClientname(  const char* a_UniqID,           // in
+                const char *a_Svcname,          // in
+                char       a_ClientFilename[NAME_MAX]);   // out
+
+int getUniqname(    const char* a_Path,           // in
+                    const char *a_Svcname,          // in
+                    char       a_ClientFilename[NAME_MAX]);   // out
 
 int fushMessageQueue(int a_Fd);
 

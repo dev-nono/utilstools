@@ -5,8 +5,8 @@
  *      Author: bruno
  */
 
-#ifndef INC_LISTTAILQUEUE_H_
-#define INC_LISTTAILQUEUE_H_
+#ifndef INC_UTILSTOOLS_LISTTAILQUEUE_H_
+#define INC_UTILSTOOLS_LISTTAILQUEUE_H_
 
 
 #include <stddef.h>
@@ -122,4 +122,4 @@ void tq_eraseList(ListQ_t *a_pList);
 // return 0, >0 for size,  -1 for invalid argument
 int tq_size(ListQ_t *a_pList);
 
-#endif /* INC_LISTTAILQUEUE_H_ */
+#endif /* INC_UTILSTOOLS_LISTTAILQUEUE_H_ */

@@ -7,7 +7,7 @@
 
 #include <errno.h>
 
-#include "pthreadutils.h"
+#include <utilstools_pthreadutils.h>
 
 //**********************************************
 // return : 0 if ok

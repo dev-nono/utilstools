@@ -5,8 +5,8 @@
  *      Author: bruno
  */
 
-#ifndef INC_PTHREADUTILS_H_
-#define INC_PTHREADUTILS_H_
+#ifndef INC_UTILSTOOLS_PTHREADUTILS_H_
+#define INC_UTILSTOOLS_PTHREADUTILS_H_
 
 #include <pthread.h>
 #include <time.h>
@@ -31,4 +31,4 @@ int pcond_timedwait(  pcond_t *a_pCond, const struct timespec);
 
 
 
-#endif /* INC_PTHREADUTILS_H_ */
+#endif /* INC_UTILSTOOLS_PTHREADUTILS_H_ */

@@ -123,7 +123,25 @@ int getMqClientname(  const char* a_UniqID,           // in
 
     return result;
 }
+//****************************************************
+//* /tmp/process1.srv1.12345
+//*
+//****************************************************
+int getUniqname(    const char* a_Path,           // in
+                    const char *a_Svcname,          // in
+                    char       a_ClientFilename[NAME_MAX])   // out
+{
+    int         result                  = 0;
+    char        vProcessname[NAME_MAX]  = {0};
+    int long    vTID  = syscall(SYS_gettid);
 
+    result = getProcessname(vProcessname);
+
+    snprintf(a_ClientFilename,NAME_MAX-1,
+            "%.100s/%.50s.%.50s.%ld",a_Path,vProcessname,a_Svcname,vTID);
+
+    return result;
+}
 //****************************************************
 //*
 //*
