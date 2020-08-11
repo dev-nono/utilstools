@@ -38,12 +38,12 @@
 #define CONCAT_POINT(_a,_b) STRINGIFY( _a._b )          // "." for semaphore filename
 #define CONCAT_SEM(aa,bb) STRINGIFY_3( aa , _ , bb )    // "_" for fifo filename
 
-#define max(a,b) \
+#define util_max(a,b) \
   ({ __auto_type _a = (a); \
       __auto_type _b = (b); \
     _a > _b ? _a : _b; })
 
-#define min(a,b) \
+#define util_min(a,b) \
   ({ __auto_type _a = (a); \
       __auto_type _b = (b); \
     _a < _b ? _a : _b; })
