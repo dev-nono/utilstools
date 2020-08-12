@@ -10,6 +10,7 @@
 
 #include "utilstools_msgqueue.h"
 
+#define HARD_MAX  (8192U)
 
 int fushMessageQueue(int a_Fd)
 {
