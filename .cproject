@@ -129,7 +129,7 @@
                         						
                         <tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532.912583939" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1141086532">
                             							
-                            <option id="gnu.c.compiler.option.misc.verbose.915235360" name="Verbose (-v)" superClass="gnu.c.compiler.option.misc.verbose" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+                            <option id="gnu.c.compiler.option.misc.verbose.915235360" name="Verbose (-v)" superClass="gnu.c.compiler.option.misc.verbose" useByScannerDiscovery="false" value="false" valueType="boolean"/>
                             							
                             <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.493021417" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
                             						
