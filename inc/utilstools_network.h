@@ -1,4 +1,4 @@
-/*
+    /*
  * network.h
  *
  *  Created on: 9 août 2020
@@ -71,5 +71,26 @@ int net_openBindConnect(    const char  *a_BindFilename,
  *              - bind(...)
  */
 int net_openBind(const char *a_BindFilename,int* a_pSocketdescriptor);
+
+
+/**
+ * \fn      int libmsg_openConnect( const char  *a_Serverfilename,
+ *                                  const char  *a_Connectclient,
+ *                                  int         *a_pSocketdescriptor)
+ *
+ * \brief   create socket AF_UNIX, SOCK_DGRAM, connect client to socked binded
+ *
+ * \param       const char  *a_Connectclient        : file to connect
+ * \param       int         *a_pSocketdescriptor    : pointer to new socket create
+ *
+ * \return      0  no error, a_pSocketdescriptor with new socket
+ *              or error for function :
+ *              - socket(AF_UNIX, SOCK_DGRAM, 0);
+ *              - setsockopt(Socketdescriptor, SOL_SOCKET, SO_REUSEADDR,1,)
+ *              - connect(...)
+ */
+int net_openConnect(     const char  *a_Connectclient,
+                            int         *a_pSocketdescriptor);
+
 
 #endif /* INC_UTILSTOOLS_NETWORK_H_ */

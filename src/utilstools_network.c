@@ -220,48 +220,68 @@ int net_openBind(const char *a_BindFilename,int* a_pSocketdescriptor)
 }
 
 /**
- * \fn      int libmsg_openBindConnect( const char  *a_BindFilename,
- *                                      const char  *a_ConnectFilename,
- *                                      int         *a_pSocketdescriptor)
+ * \fn      int net_openConnect( const char  *a_Serverfilename,
+ *                                  const char  *a_Connectclient,
+ *                                  int         *a_pSocketdescriptor)
  *
- * \brief   create socket AF_UNIX, SOCK_DGRAM, bind a filename,
- *              and connect client to socked binded
+ * \brief   create socket AF_UNIX, SOCK_DGRAM, connect client to socked binded
  *
- * \param       const char  *a_BindFilename         : filename to bind
- * \param       const char  *a_ConnectFilename      : file to connect
+ * \param       const char  *a_Connectclient        : file to connect
  * \param       int         *a_pSocketdescriptor    : pointer to new socket create
  *
  * \return      0  no error, a_pSocketdescriptor with new socket
  *              or error for function :
  *              - socket(AF_UNIX, SOCK_DGRAM, 0);
  *              - setsockopt(Socketdescriptor, SOL_SOCKET, SO_REUSEADDR,1,)
- *              - bind(...)
  *              - connect(...)
  */
-int libmsg_openBindConnect( const char  *a_BindFilename,
-                            const char  *a_ConnectFilename,
+int net_openConnect(     const char  *a_Connectclient,
                             int         *a_pSocketdescriptor)
 {
     int result = 0;
+    int yes              = 1;
 
-    if( (! (*a_BindFilename)) || !(*a_ConnectFilename) || !a_pSocketdescriptor)
+    if(  !(*a_Connectclient) || !a_pSocketdescriptor)
     {
         result = EINVAL;
     }
 
     if( 0 == result)
     {
-        result = net_openBind(a_BindFilename,a_pSocketdescriptor);
+        *a_pSocketdescriptor = socket(AF_UNIX, SOCK_DGRAM, 0);
+
+        if( -1 == *a_pSocketdescriptor )
+        {
+            fprintf(stderr,"%s : socket()=%d errno=%d %s ",
+                    __FUNCTION__,*a_pSocketdescriptor,errno,strerror(errno) );
+            result = errno;
+            *a_pSocketdescriptor = -1;
+        }
+
+        if( 0 == result )
+        {
+            result = setsockopt(* a_pSocketdescriptor, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
+
+            if( 0 != result )
+            {
+                fprintf(stderr,"%s : setsockopt()=%d errno=%d %s ",
+                        __FUNCTION__,result,errno,strerror(errno) );
+                result = errno;
+                close(*a_pSocketdescriptor);
+                *a_pSocketdescriptor = -1;
+            }
+        }
+
     }
 
     if( 0 == result)
     {
-        result = net_ConnectSocketUnix(*a_pSocketdescriptor,a_ConnectFilename);
+        result = net_ConnectSocketUnix(*a_pSocketdescriptor,a_Connectclient);
 
         if( 0 !=  result )
         {
             fprintf(stderr,"%s : net_ConnectSocketUnix(%d,%s)=%d errn=%d %s ",
-                    __FUNCTION__,*a_pSocketdescriptor,a_ConnectFilename,
+                    __FUNCTION__,*a_pSocketdescriptor,a_Connectclient,
                     result,errno,strerror(errno) );
             *a_pSocketdescriptor = -1;
         }
@@ -269,6 +289,5 @@ int libmsg_openBindConnect( const char  *a_BindFilename,
 
     return result;
 }
-
 
 
