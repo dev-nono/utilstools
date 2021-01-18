@@ -8,6 +8,7 @@
 #include <mqueue.h>
 #include <stdio.h>
 
+#include "utilstool_function.h"
 #include "utilstools_msgqueue.h"
 
 #define HARD_MAX  (8192U)

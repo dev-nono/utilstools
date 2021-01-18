@@ -48,21 +48,6 @@
     _a < _b ? _a : _b; })
 
 
-//*******************************************************************
-//*
-//*
-//*
-//*******************************************************************
-
-int getFifoname(char* a_Fifoname);
-int getProcessname(char* a_Processname);
-int getClientname(  const char* a_UniqID,           // in
-                const char *a_Svcname,          // in
-                char       a_ClientFilename[NAME_MAX]);   // out
-
-int getUniqname(    const char* a_Path,           // in
-                    const char *a_Svcname,          // in
-                    char       a_ClientFilename[NAME_MAX]);   // out
 
 
 

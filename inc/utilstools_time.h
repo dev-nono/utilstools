@@ -32,34 +32,7 @@ int timeradd_ts(    struct timespec a_Time1,
                     struct timespec a_Time2,
                     struct timespec *a_Time_result );
 
-/**
- * \fn          timeradd_ts_macro( a_Time1,a_Time2,a_Time_result )
- *
- * \brief   facility tools struct timespec macro
- *           add a_Time1 + a_Time2 in a_Time_result
- *           use only utilstoos.h do not need link libutilstools.so
- *
- * \param       struct timespec a_Time1
- *              struct timespec a_Time2
- *              struct timespec *a_Time_result );
- *
- * \return      nothing
- */
-#define timeradd_ts_macro( a_Time1,a_Time2,a_Time_result )\
-{\
-        a_Time_result.tv_nsec = a_Time1.tv_nsec + a_Time2.tv_nsec;\
-        a_Time_result.tv_sec  = a_Time1.tv_sec  + a_Time2.tv_sec;\
-        if (a_Time_result.tv_nsec >= NS_PER_SECOND)\
-        {\
-            a_Time_result.tv_nsec -= NS_PER_SECOND;\
-            a_Time_result.tv_sec++;\
-        }\
-        else if (a_Time_result.tv_nsec <= -NS_PER_SECOND)\
-        {\
-            a_Time_result.tv_nsec += NS_PER_SECOND;\
-            a_Time_result.tv_sec--;\
-        }\
-}
+
 
 /**
  * \fn      int timeradd_real (struct timespec a_Time2,struct timespec *a_Time_result );
