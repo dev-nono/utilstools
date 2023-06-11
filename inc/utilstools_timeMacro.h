@@ -23,9 +23,9 @@
  *           add a_Time1 + a_Time2 in a_Time_result
  *           use only utilstoos.h do not need link libutilstools.so
  *
- * \param       struct timespec a_Time1
- *              struct timespec a_Time2
- *              struct timespec *a_Time_result );
+ * \param       struct timespec a_Time1     _IN
+ *              struct timespec a_Time2     _IN
+ *              struct timespec *a_Time_result _OUT);
  *
  * \return      nothing
  */

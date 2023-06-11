@@ -19,11 +19,11 @@
 #include <sys/stat.h>        /* Pour les constantes des modes */
 #include <mqueue.h>
 #include <errno.h>
+#include <utilstools_function.h>
 #include "time.h"
 
 #include "utilstools.h"
 
-#include "utilstool_function.h"
 
 //          1         2         3
 // 1234567890123456789012345678901234567890

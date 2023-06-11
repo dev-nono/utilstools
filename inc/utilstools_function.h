@@ -5,8 +5,8 @@
  *      Author: bruno
  */
 
-#ifndef INC_UTILSTOOL_FUNCTION_H_
-#define INC_UTILSTOOL_FUNCTION_H_
+#ifndef INC_UTILSTOOLS_FUNCTION_H_
+#define INC_UTILSTOOLS_FUNCTION_H_
 
 #include <limits.h>
 
@@ -27,4 +27,4 @@ int getUniqname(    const char* a_Path,           // in
                     char       a_ClientFilename[NAME_MAX]);   // out
 
 
-#endif /* INC_UTILSTOOL_FUNCTION_H_ */
+#endif /* INC_UTILSTOOLS_FUNCTION_H_ */

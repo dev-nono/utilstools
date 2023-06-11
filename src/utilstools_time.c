@@ -209,16 +209,16 @@ double getDateRawDouble()
  *
  * \return     date in double format
  */
-double  getDateDouble(const struct timespec a_Date)
-{
-    double      result      = 0;
-    __uint64_t    secnano    = 0;
-    __uint64_t    vtime      = 0;
-
-    secnano = a_Date.tv_sec * 1e9;
-    vtime   = a_Date.tv_nsec + secnano;
-
-    result = (double)(vtime / 1e9);
-
-    return result;
-}
+//double  getDateDouble(const struct timespec a_Date)
+//{
+//    double      result      = 0;
+//    __uint64_t    secnano    = 0;
+//    __uint64_t    vtime      = 0;
+//
+//    secnano = a_Date.tv_sec * 1e9;
+//    vtime   = a_Date.tv_nsec + secnano;
+//
+//    result = (double)(vtime / 1e9);
+//
+//    return result;
+//}
